@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+s<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="郭家饭店 — 德州临邑地道中式风味，清水丸子、风味茄子等招牌菜欢迎品鉴。">
+  <meta name="description" content="郭家饭店 — 德州临邑地道鲁川风味，清水丸子、风味茄子等招牌菜欢迎品鉴。">
   <title>郭家饭店 · 德州临邑</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,7 +43,7 @@
       <div class="intro-inner">
         <h2 id="intro-title" class="section-kicker">食 · 之 · 道</h2>
         <p class="intro-text">
-          郭家饭店扎根德州临邑，沿用传统技法，精选新鲜食材，以文火慢炖、急火快炒，还原每一道菜的本味。
+          郭家饭店扎根德州临邑乡村，服务周边六里八乡。沿用传统技法，精选新鲜食材，以文火慢炖、急火快炒，还原每一道菜的本味。
           清水丸子滑嫩弹牙、汤鲜味醇；风味茄子外酥里嫩、酱香四溢；特色炒鸡锅气十足；烤鱼先烤后炖、麻辣鲜香；
           酸辣娃娃菜爽脆开胃；拌油麦蒜香解腻——皆是食客口口相传的招牌。
         </p>
@@ -154,7 +154,141 @@
     <p>© 2026 郭家饭店 · 保留所有权利</p>
     <a href="#top">返回顶部</a>
   </footer>
+<!-- ===== 点餐按钮（悬浮右下角） ===== -->
+<button id="orderBtn" class="order-fab" type="button">📖 点餐</button>
 
-  <script src="script.js"></script>
+<!-- ===== 菜谱弹窗 ===== -->
+<div id="menuModal" class="menu-modal" hidden>
+  <div class="menu-modal-box">
+    <button id="menuClose" class="menu-close" type="button" aria-label="关闭">&times;</button>
+    <h2 class="menu-modal-title">郭家饭店 · 菜单</h2>
+    <div id="menuList" class="menu-list"></div>
+    <div class="menu-foot">
+      <button id="menuCall" class="menu-call" type="button">📞 打电话订餐</button>
+    </div>
+  </div>
+</div>
+  <script>
+// ===== 菜单数据（价格自己改） =====
+const DISHES = [
+  //=====肉菜=====
+  {name:"鱼香肉丝",price:32},
+  {name:"回锅肉",price:32},
+  {name:"京酱肉丝",price:32},
+  {name:"辣炒肥肠",price:40},
+  {name:"辣炒猪肚",price:40},
+  {name:"糖醋里脊",price:32},
+  {name:"炒鸡",price:58},
+  {name:"炒鸡胗",price:30},
+  {name:"宫保鸡丁",price:26},
+  {name:"扣肉",price:35},
+  {name:"炸带鱼",price:25},
+  {name:"红烧带鱼",price:30},
+  {name:"炒虾仁",price:40},
+  {name:"炸虾仁",price:40},
+  {name:"干炸大虾",price:40},
+  {name:"油焖大虾",price:40},
+  {name:"孜然羊肉",price:45},
+  {name:"油爆双脆",price:38},
+  {name:"土豆烧牛肉",price:75},
+  {name:"红烧蝶鱼头",price:65},
+  //=====素菜=====
+  {name:"炒鸭血",price:14},
+  {name:"炒黄豆芽",price:14},
+  {name:"蒜苔炒肉",price:18},
+  {name:"木须肉",price:16},
+  {name:"醋溜山药",price:16},
+  {name:"风味茄子",price:16},
+  {name:"尖椒炒肉",price:16},
+  {name:"芸豆炒肉",price:18},
+  {name:"肉末粉条",price:16},
+  {name:"千叶豆腐",price:32},
+  {name:"蒜爆肉",price:14},
+  {name:"炒油菜",price:14},
+  {name:"麻辣豆腐",price:16},
+  {name:"芹菜炒肉",price:18},
+  {name:"干煸芸豆",price:16},
+  {name:"炸蘑菇",price:16},
+  {name:"红烧茄子",price:16},
+  {name:"炒娃娃菜",price:14},
+  {name:"酸辣土豆丝",price:14},
+  {name:"大葱炒鸡蛋",price:14},
+  //=====凉菜=====
+  {name:"拌猪耳",price:35},
+  {name:"拌猪脸",price:30},
+  {name:"酱牛肉",price:50},
+  {name:"拌黄瓜",price:14},
+  {name:"拌金针",price:14},
+  {name:"拌豆腐皮",price:14},
+  {name:"老醋花生",price:18},
+  {name:"拌油麦菜",price:14},
+  {name:"炝藕片",price:14},
+  {name:"拌豆角",price:16},
+  {name:"拌粉丝",price:14},
+  {name:"姜汁松花蛋",price:18},
+  //=====大碗菜=====
+  {name:"清水丸子",price:40},
+  {name:"酸菜鱼",price:40},
+  {name:"香菇鸡块",price:45},
+  {name:"红烧肉",price:50},
+  {name:"排骨",price:50},
+  {name:"粉丝羊肉",price:35},
+  {name:"毛血旺",price:40},
+  {name:"杂拌",price:40},
+  {name:"羊杂",price:40},
+  {name:"水煮肉片",price:32},
+  {name:"肥肠豆腐",price:40},
+  {name:"西红柿炖牛肉",price:80},
+  //=====主食=====
+  {name:"馒头",price:0},
+  {name:"面条",price:0},
+  {name:"水饺",price:0},
+  {name:"焖饼",price:0}
+];
+
+const orderBtn = document.getElementById("orderBtn");
+const menuModal = document.getElementById("menuModal");
+const menuClose = document.getElementById("menuClose");
+const menuList = document.getElementById("menuList");
+const menuCall = document.getElementById("menuCall");
+
+orderBtn.addEventListener("click", function(){
+  renderMenu();
+  menuModal.hidden = false;
+});
+menuClose.addEventListener("click", function(){ menuModal.hidden = true; });
+menuModal.addEventListener("click", function(e){ if (e.target === menuModal) menuModal.hidden = true; });
+function renderMenu() { 
+  menuList
+.innerHTML = "";
+  DISHES.forEach(function(dish){
+    var item = document.createElement("div");
+    item
+.className = "menu-item";
+
+    // 没有tag、desc就为空字符串
+    var tagText = dish.tag ? '<span class="menu-item-tag">' + dish.tag + '</span>' : '';
+    var descText = dish.desc ? '<div class="menu-item-desc">' + dish.desc + '</div>' : '';
+
+    item
+.innerHTML = '<div class="menu-item-info">' +
+      '<div class="menu-item-name">' + dish.name + tagText + '</div>' +
+      descText 
++ '</div>' +
+      '<div class="menu-item-price">¥' + dish.price + '</div>';
+    menuList
+.appendChild(item);
+  });
+}
+
+menuCall.addEventListener("click", function(){
+  window.location.href = "tel:18613610736";
+});
+var animateItems = document.querySelectorAll('[data-animate]');
+animateItems.forEach(function(el){
+  el.style.opacity = '1';
+  el.style.transform = 'none';
+});
+</script>
 </body>
 </html>
