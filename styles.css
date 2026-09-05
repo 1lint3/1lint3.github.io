@@ -643,4 +643,47 @@ ul {
   font-size: 15px;
   cursor: pointer;
 }
-.menu-call:hover { background:#a93226; } [hidden] { display: none !important; }                                                                                              
+.menu-call:hover { background:#a93226; } [hidden] { display: none !important; }     
+/* ===== 完整菜单区块（响应式练习） ===== */
+.full-menu {
+  padding: clamp(4rem, 10vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+  background: var(--paper);
+}
+.full-menu .section-title { color: var(--crimson); }
+.full-menu .section-desc { color: var(--ink-soft); }
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 电脑：3列 */
+  gap: 0.75rem 1.25rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+.menu-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.7rem 1rem;
+  background: #fff;
+  border-radius: 8px;
+  border-left: 3px solid var(--gold-light);
+}
+.menu-card-name { font-size: 0.95rem; color: var(--ink); }
+.menu-card-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--crimson);
+  white-space: nowrap;
+  margin-left: 0.75rem;
+}
+
+/* 响应式：屏幕 ≤1024px（平板）→ 2列 */
+@media (max-width: 1024px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 响应式：屏幕 ≤640px（手机）→ 1列 */
+@media (max-width: 640px) {
+  .menu-grid { grid-template-columns: 1fr; }
+  .menu-card { padding: 0.85rem 1rem; }
+}                                                                                         

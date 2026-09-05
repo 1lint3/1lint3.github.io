@@ -124,7 +124,13 @@ s<!DOCTYPE html>
         </article>
       </div>
     </section>
-
+<section class="full-menu" id="menu">
+      <div class="section-head">
+        <h2 class="section-title">完整菜单</h2>
+        <p class="section-desc">肉菜 · 素菜 · 凉菜 · 大碗菜 · 主食，共 64 道</p>
+      </div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </section>
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="contact-bg" aria-hidden="true"></div>
       <div class="contact-inner">
@@ -245,7 +251,20 @@ const DISHES = [
   {name:"水饺",price:0},
   {name:"焖饼",price:12}
 ];
-
+// ===== 渲染完整菜单（响应式练习用） =====
+function renderMenuGrid() {
+  var grid = document.getElementById("menuGrid");
+  if (!grid) return;
+  DISHES.forEach(function(dish) {
+    var card = document.createElement("div");
+    card.className = "menu-card";
+    var priceText = dish.price > 0 ? "¥" + dish.price : "面议";
+    card.innerHTML = '<span class="menu-card-name">' + dish.name + '</span>' +
+                     '<span class="menu-card-price">' + priceText + '</span>';
+    grid.appendChild(card);
+  });
+}
+renderMenuGrid();
 const orderBtn = document.getElementById("orderBtn");
 const menuModal = document.getElementById("menuModal");
 const menuClose = document.getElementById("menuClose");
