@@ -686,4 +686,74 @@ ul {
 @media (max-width: 640px) {
   .menu-grid { grid-template-columns: 1fr; }
   .menu-card { padding: 0.85rem 1rem; }
-}                                                                                         
+}  
+
+/* ===== 预约表单样式 ===== */
+.contact-form-wrap {
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+.contact-form {
+  background: var(--mist);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 12px;
+  text-align: left;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+.form-group input,
+.form-group textarea {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(61,52,44,0.2);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--ink);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(155,28,28,0.12);
+}
+.form-submit {
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--crimson);
+  color: var(--paper);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 0.5rem;
+}
+.form-submit:hover {
+  background: var(--crimson-deep);
+  transform: translateY(-1px);
+}
+/* 响应式：手机端表单一列 */
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}                                                                                       
