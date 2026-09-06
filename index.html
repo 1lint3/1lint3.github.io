@@ -185,139 +185,91 @@ s<!DOCTYPE html>
   </div>
 </div>
   <script>
-// ===== 菜单数据（价格自己改） =====
+// ===== 菜单数据 =====
 const DISHES = [
-  //=====肉菜=====
-  {name:"鱼香肉丝",price:32},
-  {name:"回锅肉",price:32},
-  {name:"京酱肉丝",price:32},
-  {name:"辣炒肥肠",price:40},
-  {name:"辣炒猪肚",price:40},
-  {name:"糖醋里脊",price:32},
-  {name:"炒鸡",price:58},
-  {name:"炒鸡胗",price:30},
-  {name:"宫保鸡丁",price:26},
-  {name:"扣肉",price:35},
-  {name:"炸带鱼",price:25},
-  {name:"红烧带鱼",price:30},
-  {name:"炒虾仁",price:40},
-  {name:"炸虾仁",price:40},
-  {name:"干炸大虾",price:40},
-  {name:"油焖大虾",price:40},
-  {name:"孜然羊肉",price:45},
-  {name:"油爆双脆",price:38},
-  {name:"土豆烧牛肉",price:75},
-  {name:"红烧蝶鱼头",price:65},
-  //=====素菜=====
-  {name:"炒鸭血",price:14},
-  {name:"炒黄豆芽",price:14},
-  {name:"蒜苔炒肉",price:18},
-  {name:"木须肉",price:16},
-  {name:"醋溜山药",price:16},
-  {name:"风味茄子",price:16},
-  {name:"尖椒炒肉",price:16},
-  {name:"芸豆炒肉",price:18},
-  {name:"肉末粉条",price:16},
-  {name:"千叶豆腐",price:32},
-  {name:"蒜爆肉",price:14},
-  {name:"炒油菜",price:14},
-  {name:"麻辣豆腐",price:16},
-  {name:"芹菜炒肉",price:18},
-  {name:"干煸芸豆",price:16},
-  {name:"炸蘑菇",price:16},
-  {name:"红烧茄子",price:16},
-  {name:"炒娃娃菜",price:14},
-  {name:"酸辣土豆丝",price:14},
-  {name:"大葱炒鸡蛋",price:14},
-  //=====凉菜=====
-  {name:"拌猪耳",price:35},
-  {name:"拌猪脸",price:30},
-  {name:"酱牛肉",price:50},
-  {name:"拌黄瓜",price:14},
-  {name:"拌金针",price:14},
-  {name:"拌豆腐皮",price:14},
-  {name:"老醋花生",price:18},
-  {name:"拌油麦菜",price:14},
-  {name:"炝藕片",price:14},
-  {name:"拌豆角",price:16},
-  {name:"拌粉丝",price:14},
-  {name:"姜汁松花蛋",price:18},
-  //=====大碗菜=====
-  {name:"清水丸子",price:40},
-  {name:"酸菜鱼",price:40},
-  {name:"香菇鸡块",price:45},
-  {name:"红烧肉",price:50},
-  {name:"排骨",price:50},
-  {name:"粉丝羊肉",price:35},
-  {name:"毛血旺",price:40},
-  {name:"杂拌",price:40},
-  {name:"羊杂",price:40},
-  {name:"水煮肉片",price:32},
-  {name:"肥肠豆腐",price:40},
-  {name:"西红柿炖牛肉",price:80},
-  //=====主食=====
-  {name:"馒头",price:0},
-  {name:"面条",price:0},
-  {name:"水饺",price:0},
-  {name:"焖饼",price:12}
+  {name:"鱼香肉丝",price:32},{name:"回锅肉",price:32},{name:"京酱肉丝",price:32},
+  {name:"辣炒肥肠",price:40},{name:"辣炒猪肚",price:40},{name:"糖醋里脊",price:32},
+  {name:"炒鸡",price:58},{name:"炒鸡胗",price:30},{name:"宫保鸡丁",price:26},
+  {name:"扣肉",price:35},{name:"炸带鱼",price:25},{name:"红烧带鱼",price:30},
+  {name:"炒虾仁",price:40},{name:"炸虾仁",price:40},{name:"干炸大虾",price:40},
+  {name:"油焖大虾",price:40},{name:"孜然羊肉",price:45},{name:"油爆双脆",price:38},
+  {name:"土豆烧牛肉",price:75},{name:"红烧蝶鱼头",price:65},
+  {name:"炒鸭血",price:14},{name:"炒黄豆芽",price:14},{name:"蒜苔炒肉",price:18},
+  {name:"木须肉",price:16},{name:"醋溜山药",price:16},{name:"风味茄子",price:16},
+  {name:"尖椒炒肉",price:16},{name:"芸豆炒肉",price:18},{name:"肉末粉条",price:16},
+  {name:"千叶豆腐",price:32},{name:"蒜爆肉",price:14},{name:"炒油菜",price:14},
+  {name:"麻辣豆腐",price:16},{name:"芹菜炒肉",price:18},{name:"干煸芸豆",price:16},
+  {name:"炸蘑菇",price:16},{name:"红烧茄子",price:16},{name:"炒娃娃菜",price:14},
+  {name:"酸辣土豆丝",price:14},{name:"大葱炒鸡蛋",price:14},
+  {name:"拌猪耳",price:35},{name:"拌猪脸",price:30},{name:"酱牛肉",price:50},
+  {name:"拌黄瓜",price:14},{name:"拌金针",price:14},{name:"拌豆腐皮",price:14},
+  {name:"老醋花生",price:18},{name:"拌油麦菜",price:14},{name:"炝藕片",price:14},
+  {name:"拌豆角",price:16},{name:"拌粉丝",price:14},{name:"姜汁松花蛋",price:18},
+  {name:"清水丸子",price:40},{name:"酸菜鱼",price:40},{name:"香菇鸡块",price:45},
+  {name:"红烧肉",price:50},{name:"排骨",price:50},{name:"粉丝羊肉",price:35},
+  {name:"毛血旺",price:40},{name:"杂拌",price:40},{name:"羊杂",price:40},
+  {name:"水煮肉片",price:32},{name:"肥肠豆腐",price:40},{name:"西红柿炖牛肉",price:80},
+  {name:"馒头",price:0},{name:"面条",price:0},{name:"水饺",price:0},{name:"焖饼",price:12}
 ];
-// ===== 渲染完整菜单（响应式练习用） =====
+
+// ===== 渲染完整菜单 =====
 function renderMenuGrid() {
   var grid = document.getElementById("menuGrid");
   if (!grid) return;
   DISHES.forEach(function(dish) {
     var card = document.createElement("div");
-    card.className = "menu-card";
+    card.className = "menu-card reveal";
     var priceText = dish.price > 0 ? "¥" + dish.price : "面议";
-    card.innerHTML = '<span class="menu-card-name">' + dish.name + '</span>' +
-                     '<span class="menu-card-price">' + priceText + '</span>';
+    card.innerHTML = '<span class="menu-card-name">' + dish.name + '</span><span class="menu-card-price">' + priceText + '</span>';
     grid.appendChild(card);
   });
 }
 renderMenuGrid();
-const orderBtn = document.getElementById("orderBtn");
-const menuModal = document.getElementById("menuModal");
-const menuClose = document.getElementById("menuClose");
-const menuList = document.getElementById("menuList");
-const menuCall = document.getElementById("menuCall");
 
-orderBtn.addEventListener("click", function(){
+// ===== 点餐弹窗 =====
+var orderBtn = document.getElementById("orderBtn");
+var menuModal = document.getElementById("menuModal");
+var menuClose = document.getElementById("menuClose");
+var menuList = document.getElementById("menuList");
+var menuCall = document.getElementById("menuCall");
+
+orderBtn.addEventListener("click", function() {
   renderMenu();
   menuModal.hidden = false;
 });
-menuClose.addEventListener("click", function(){ menuModal.hidden = true; });
-menuModal.addEventListener("click", function(e){ if (e.target === menuModal) menuModal.hidden = true; });
-function renderMenu() { 
-  menuList
-.innerHTML = "";
-  DISHES.forEach(function(dish){
-    var item = document.createElement("div");
-    item
-.className = "menu-item";
+menuClose.addEventListener("click", function() { menuModal.hidden = true; });
+menuModal.addEventListener("click", function(e) {
+  if (e.target === menuModal) menuModal.hidden = true;
+});
 
-    // 没有tag、desc就为空字符串
+function renderMenu() {
+  menuList.innerHTML = "";
+  DISHES.forEach(function(dish) {
+    var item = document.createElement("div");
+    item.className = "menu-item";
     var tagText = dish.tag ? '<span class="menu-item-tag">' + dish.tag + '</span>' : '';
     var descText = dish.desc ? '<div class="menu-item-desc">' + dish.desc + '</div>' : '';
-
-    item
-.innerHTML = '<div class="menu-item-info">' +
-      '<div class="menu-item-name">' + dish.name + tagText + '</div>' +
-      descText 
-+ '</div>' +
-      '<div class="menu-item-price">¥' + dish.price + '</div>';
-    menuList
-.appendChild(item);
+    item.innerHTML = '<div class="menu-item-info"><div class="menu-item-name">' + dish.name + tagText + '</div>' + descText + '</div><div class="menu-item-price">¥' + dish.price + '</div>';
+    menuList.appendChild(item);
   });
 }
 
-menuCall.addEventListener("click", function(){
+menuCall.addEventListener("click", function() {
   window.location.href = "tel:18613610736";
 });
-var animateItems = document.querySelectorAll('[data-animate]');
-animateItems.forEach(function(el){
-  el.style.opacity = '1';
-  el.style.transform = 'none';
-});
+
+// ===== 滚动渐入 =====
+function checkReveal() {
+  var all = document.querySelectorAll('.dish-item, .contact-block, .section-head, .menu-card');
+  for (var i = 0; i < all.length; i++) {
+    var rect = all[i].getBoundingClientRect();
+    if (rect.top < window.innerHeight - 50) {
+      all[i].classList.add('visible');
+    }
+  }
+}
+window.addEventListener('scroll', checkReveal);
+if (window.scrollY > 0) { checkReveal(); }
 </script>
 </body>
 </html>
