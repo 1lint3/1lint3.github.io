@@ -207,7 +207,11 @@ s<!DOCTYPE html>
     </div>
   </div>
 </div>
-  <script>
+ </body> 
+<!--回到顶部按钮-->
+<button id="backTop" style="position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
+<script>
+
 // ===== 菜单数据 =====
 const DISHES = [
   {name:"鱼香肉丝",price:32},{name:"回锅肉",price:32},{name:"京酱肉丝",price:32},
@@ -280,19 +284,53 @@ function renderMenu() {
 menuCall.addEventListener("click", function() {
   window.location.href = "tel:18613610736";
 });
+// 获取回到顶部按钮
+const backTopBtn = document.getElementById('backTop');
 
-// ===== 滚动渐入 =====
+// 监听页面滚动事件
+window.addEventListener('scroll', function(){
+  // scrollY：页面向下滚动了多少像素
+  if(window.scrollY > 300){
+    // 滚动超过300像素，显示按钮
+    backTopBtn
+.style.display = 'block';
+  }else{
+    // 页面靠近顶部，隐藏按钮
+    backTopBtn
+.style.display = 'none';
+  }
+});
+
+// 点击按钮，滚动回顶部
+backTopBtn
+.addEventListener('click',function(){
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"  //smooth 平滑滚动；auto瞬间跳回
+  });
+});
+
+// ===== 招牌菜显示（补回：CSS里招牌菜默认透明，JS负责让它显示） =====
+var dishItems = document.querySelectorAll('.dish-item');
+dishItems
+.forEach(function(el){
+  el
+.style.opacity = '1';
+  el
+.style.transform = 'none';
+});
+// ===== 滚动渐入：元素进入屏幕时淡入显示 =====
 function checkReveal() {
-  var all = document.querySelectorAll('.dish-item, .contact-block, .section-head, .menu-card');
-  for (var i = 0; i < all.length; i++) {
-    var rect = all[i].getBoundingClientRect();
+  var items = document.querySelectorAll('.menu-card, .contact-block, .section-head');
+  for (var i = 0; i < items.length; i++) {
+    var rect = items[i].getBoundingClientRect();
     if (rect.top < window.innerHeight - 50) {
-      all[i].classList.add('visible');
+      items[i].classList.add('visible');
     }
   }
 }
 window.addEventListener('scroll', checkReveal);
-if (window.scrollY > 0) { checkReveal(); }
+checkReveal();
 </script>
-</body>
+
 </html>
