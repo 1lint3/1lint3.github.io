@@ -219,7 +219,6 @@ s<!DOCTYPE html>
 <!--回到顶部按钮-->
 <button id="backTop" style="position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
 <script>
-
 // ===== 菜单数据（按分类分组） =====
 const MEAT_DISHES = [
   {name:"鱼香肉丝",price:32},{name:"回锅肉",price:32},{name:"京酱肉丝",price:32},
@@ -254,98 +253,157 @@ const BIG_DISHES = [
 const STAPLE_DISHES = [
   {name:"馒头",price:0},{name:"面条",price:0},{name:"水饺",price:0},{name:"焖饼",price:12}
 ];
-// 合并成总菜单（点餐弹窗和默认显示用）
 const DISHES = MEAT_DISHES.concat(VEG_DISHES, COLD_DISHES, BIG_DISHES, STAPLE_DISHES);
+
+// ===== 点餐弹窗 + 购物车 =====
+var orderBtn = document.getElementById("orderBtn");
+var menuModal = document.getElementById("menuModal");
+var menuClose = document.getElementById("menuClose");
+var menuList = document.getElementById("menuList");
+var menuCall = document.getElementById("menuCall");
+var cart = {};  // 购物车
+
+orderBtn
+.addEventListener("click", function() {
+  renderMenu();
+  menuModal
+.hidden = false;
+});
+menuClose
+.addEventListener("click", function() { menuModal.hidden = true; });
+menuModal
+.addEventListener("click", function(e) {
+  if (e.target === menuModal) menuModal.hidden = true;
+});
+
+function renderMenu() {
+  menuList
+.innerHTML = "";
+  DISHES.forEach(function(dish) {
+    var item = document.createElement("div");
+    item
+.className = "menu-item";
+    var tagText = dish.tag ? '<span class="menu-item-tag">' + dish.tag + '</span>' : '';
+    var descText = dish.desc ? '<div class="menu-item-desc">' + dish.desc + '</div>' : '';
+    var num = cart[dish.name] ? cart[dish.name].count : 0;
+    item
+.innerHTML =
+      '<div class="menu-item-info"><div class="menu-item-name">' + dish.name + tagText + '</div>' + descText + '</div>' +
+      '<div class="menu-item-price">¥' + dish.price + '</div>' +
+      '<div class="menu-item-ctrl">' +
+        '<button class="minus-btn">-</button>' +
+        '<span class="num">' + num + '</span>' +
+        '<button class="plus-btn">+</button>' +
+      '</div>';
+    menuList
+.appendChild(item);
+
+    item
+.querySelector('.plus-btn').addEventListener('click', function(){
+      if (!cart[dish.name]) {
+        cart
+[dish.name] = {name: dish.name, price: dish.price, count: 0};
+      }
+      cart
+[dish.name].count += 1;
+      renderMenu();
+      updateCartTotal();
+    });
+    item
+.querySelector('.minus-btn').addEventListener('click', function(){
+      if (cart[dish.name] && cart[dish.name].count > 0) {
+        cart
+[dish.name].count -= 1;
+        if (cart[dish.name].count <= 0) {
+          delete cart[dish.name];
+        }
+      }
+      renderMenu();
+      updateCartTotal();
+    });
+  });
+}
+
+// ===== 计算购物车总数量、总价格 =====
+function updateCartTotal(){
+  var totalNum = 0;
+  var totalPrice = 0;
+  for (var key in cart) {
+    var item = cart[key];
+    totalNum 
++= item.count;
+    totalPrice 
++= item.count * item.price;
+  }
+  console.log("菜品总数：", totalNum, "合计：¥", totalPrice);
+}
+
+menuCall
+.addEventListener("click", function() {
+  window.location.href = "tel:18613610736";
+});
+
 // ===== 渲染完整菜单（支持分类筛选） =====
-var currentCat = 'all';  // 当前选中的分类
+var currentCat = 'all';
 function renderMenuGrid() {
   var grid = document.getElementById("menuGrid");
   if (!grid) return;
-  grid.innerHTML = "";  // 先清空
-  // 根据当前分类选择数据源
+  grid
+.innerHTML = "";
   var data = DISHES;
   if (currentCat === 'meat') data = MEAT_DISHES;
   else if (currentCat === 'veg') data = VEG_DISHES;
   else if (currentCat === 'cold') data = COLD_DISHES;
   else if (currentCat === 'big') data = BIG_DISHES;
   else if (currentCat === 'staple') data = STAPLE_DISHES;
-  data.forEach(function(dish) {
+  data
+.forEach(function(dish) {
     var card = document.createElement("div");
-    card.className = "menu-card reveal";
+    card
+.className = "menu-card reveal";
     var priceText = dish.price > 0 ? "¥" + dish.price : "面议";
-    card.innerHTML = '<span class="menu-card-name">' + dish.name + '</span><span class="menu-card-price">' + priceText + '</span>';
-    grid.appendChild(card);
+    card
+.innerHTML = '<span class="menu-card-name">' + dish.name + '</span><span class="menu-card-price">' + priceText + '</span>';
+    grid
+.appendChild(card);
   });
-  checkReveal();  // 让新卡片按可见性淡入
+  checkReveal();
 }
-// ===== 分类按钮：循环绑定点击事件 =====
+
+// ===== 分类按钮 =====
 var filterBtns = document.querySelectorAll('.filter-btn');
-filterBtns.forEach(function(btn){
-  btn.addEventListener('click', function(){
-    filterBtns.forEach(function(b){ b.classList.remove('active'); });  // 全部取消高亮
-    btn.classList.add('active');  // 当前按钮高亮
-    currentCat = btn.getAttribute('data-cat');  // 记录选中的分类
-    renderMenuGrid();  // 重新渲染
+filterBtns
+.forEach(function(btn){
+  btn
+.addEventListener('click', function(){
+    filterBtns
+.forEach(function(b){ b.classList.remove('active'); });
+    btn
+.classList.add('active');
+    currentCat 
+= btn.getAttribute('data-cat');
+    renderMenuGrid();
   });
 });
-// ===== 点餐弹窗 =====
-var orderBtn = document.getElementById("orderBtn");
-var menuModal = document.getElementById("menuModal");
-var menuClose = document.getElementById("menuClose");
-var menuList = document.getElementById("menuList");
-var menuCall = document.getElementById("menuCall");
+renderMenuGrid();
 
-orderBtn.addEventListener("click", function() {
-  renderMenu();
-  menuModal.hidden = false;
-});
-menuClose.addEventListener("click", function() { menuModal.hidden = true; });
-menuModal.addEventListener("click", function(e) {
-  if (e.target === menuModal) menuModal.hidden = true;
-});
-
-function renderMenu() {
-  menuList.innerHTML = "";
-  DISHES.forEach(function(dish) {
-    var item = document.createElement("div");
-    item.className = "menu-item";
-    var tagText = dish.tag ? '<span class="menu-item-tag">' + dish.tag + '</span>' : '';
-    var descText = dish.desc ? '<div class="menu-item-desc">' + dish.desc + '</div>' : '';
-    item.innerHTML = '<div class="menu-item-info"><div class="menu-item-name">' + dish.name + tagText + '</div>' + descText + '</div><div class="menu-item-price">¥' + dish.price + '</div>';
-    menuList.appendChild(item);
-  });
-}
-
-menuCall.addEventListener("click", function() {
-  window.location.href = "tel:18613610736";
-});
-// 获取回到顶部按钮
+// ===== 回到顶部按钮 =====
 const backTopBtn = document.getElementById('backTop');
-
-// 监听页面滚动事件
 window.addEventListener('scroll', function(){
-  // scrollY：页面向下滚动了多少像素
-  if(window.scrollY > 300){
-    // 滚动超过300像素，显示按钮
+  if (window.scrollY > 300) {
     backTopBtn
 .style.display = 'block';
-  }else{
-    // 页面靠近顶部，隐藏按钮
+  } else {
     backTopBtn
 .style.display = 'none';
   }
 });
-
-// 点击按钮，滚动回顶部
 backTopBtn
-.addEventListener('click',function(){
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"  //smooth 平滑滚动；auto瞬间跳回
-  });
+.addEventListener('click', function(){
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// ===== 招牌菜显示（补回：CSS里招牌菜默认透明，JS负责让它显示） =====
+// ===== 招牌菜显示 =====
 var dishItems = document.querySelectorAll('.dish-item');
 dishItems
 .forEach(function(el){
@@ -354,13 +412,15 @@ dishItems
   el
 .style.transform = 'none';
 });
-// ===== 滚动渐入：元素进入屏幕时淡入显示 =====
+
+// ===== 滚动渐入 =====
 function checkReveal() {
   var items = document.querySelectorAll('.menu-card, .contact-block, .section-head');
   for (var i = 0; i < items.length; i++) {
     var rect = items[i].getBoundingClientRect();
     if (rect.top < window.innerHeight - 50) {
-      items[i].classList.add('visible');
+      items
+[i].classList.add('visible');
     }
   }
 }

@@ -766,4 +766,35 @@ ul {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-}                                                                                  
+} 
+/* ===== 弹窗购物车加减按钮 ===== */
+.menu-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e3d9c8;
+}
+.menu-item-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.menu-item-ctrl button {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: none;
+  background: var(--crimson);
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+.menu-item-ctrl .num {
+  width: 24px;
+  text-align: center;
+  color: var(--ink);
+  font-weight: 600;
+}                                               
