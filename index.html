@@ -152,7 +152,15 @@ s<!DOCTYPE html>
         <h2 class="section-title">完整菜单</h2>
         <p class="section-desc">肉菜 · 素菜 · 凉菜 · 大碗菜 · 主食，共 64 道</p>
       </div>
-      <div class="menu-grid" id="menuGrid"></div>
+   <div class="menu-filter">
+        <button class="filter-btn active" data-cat="all">全部</button>
+        <button class="filter-btn" data-cat="meat">肉菜</button>
+        <button class="filter-btn" data-cat="veg">素菜</button>
+        <button class="filter-btn" data-cat="cold">凉菜</button>
+        <button class="filter-btn" data-cat="big">大碗菜</button>
+        <button class="filter-btn" data-cat="staple">主食</button>
+      </div>   
+<div class="menu-grid" id="menuGrid"></div>
     </section>
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="contact-bg" aria-hidden="true"></div>
@@ -212,47 +220,74 @@ s<!DOCTYPE html>
 <button id="backTop" style="position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
 <script>
 
-// ===== 菜单数据 =====
-const DISHES = [
+// ===== 菜单数据（按分类分组） =====
+const MEAT_DISHES = [
   {name:"鱼香肉丝",price:32},{name:"回锅肉",price:32},{name:"京酱肉丝",price:32},
   {name:"辣炒肥肠",price:40},{name:"辣炒猪肚",price:40},{name:"糖醋里脊",price:32},
   {name:"炒鸡",price:58},{name:"炒鸡胗",price:30},{name:"宫保鸡丁",price:26},
   {name:"扣肉",price:35},{name:"炸带鱼",price:25},{name:"红烧带鱼",price:30},
   {name:"炒虾仁",price:40},{name:"炸虾仁",price:40},{name:"干炸大虾",price:40},
   {name:"油焖大虾",price:40},{name:"孜然羊肉",price:45},{name:"油爆双脆",price:38},
-  {name:"土豆烧牛肉",price:75},{name:"红烧蝶鱼头",price:65},
+  {name:"土豆烧牛肉",price:75},{name:"红烧蝶鱼头",price:65}
+];
+const VEG_DISHES = [
   {name:"炒鸭血",price:14},{name:"炒黄豆芽",price:14},{name:"蒜苔炒肉",price:18},
   {name:"木须肉",price:16},{name:"醋溜山药",price:16},{name:"风味茄子",price:16},
   {name:"尖椒炒肉",price:16},{name:"芸豆炒肉",price:18},{name:"肉末粉条",price:16},
   {name:"千叶豆腐",price:32},{name:"蒜爆肉",price:14},{name:"炒油菜",price:14},
   {name:"麻辣豆腐",price:16},{name:"芹菜炒肉",price:18},{name:"干煸芸豆",price:16},
   {name:"炸蘑菇",price:16},{name:"红烧茄子",price:16},{name:"炒娃娃菜",price:14},
-  {name:"酸辣土豆丝",price:14},{name:"大葱炒鸡蛋",price:14},
+  {name:"酸辣土豆丝",price:14},{name:"大葱炒鸡蛋",price:14}
+];
+const COLD_DISHES = [
   {name:"拌猪耳",price:35},{name:"拌猪脸",price:30},{name:"酱牛肉",price:50},
   {name:"拌黄瓜",price:14},{name:"拌金针",price:14},{name:"拌豆腐皮",price:14},
   {name:"老醋花生",price:18},{name:"拌油麦菜",price:14},{name:"炝藕片",price:14},
-  {name:"拌豆角",price:16},{name:"拌粉丝",price:14},{name:"姜汁松花蛋",price:18},
+  {name:"拌豆角",price:16},{name:"拌粉丝",price:14},{name:"姜汁松花蛋",price:18}
+];
+const BIG_DISHES = [
   {name:"清水丸子",price:40},{name:"酸菜鱼",price:40},{name:"香菇鸡块",price:45},
   {name:"红烧肉",price:50},{name:"排骨",price:50},{name:"粉丝羊肉",price:35},
   {name:"毛血旺",price:40},{name:"杂拌",price:40},{name:"羊杂",price:40},
-  {name:"水煮肉片",price:32},{name:"肥肠豆腐",price:40},{name:"西红柿炖牛肉",price:80},
+  {name:"水煮肉片",price:32},{name:"肥肠豆腐",price:40},{name:"西红柿炖牛肉",price:80}
+];
+const STAPLE_DISHES = [
   {name:"馒头",price:0},{name:"面条",price:0},{name:"水饺",price:0},{name:"焖饼",price:12}
 ];
-
-// ===== 渲染完整菜单 =====
+// 合并成总菜单（点餐弹窗和默认显示用）
+const DISHES = MEAT_DISHES.concat(VEG_DISHES, COLD_DISHES, BIG_DISHES, STAPLE_DISHES);
+// ===== 渲染完整菜单（支持分类筛选） =====
+var currentCat = 'all';  // 当前选中的分类
 function renderMenuGrid() {
   var grid = document.getElementById("menuGrid");
   if (!grid) return;
-  DISHES.forEach(function(dish) {
+  grid.innerHTML = "";  // 先清空
+  // 根据当前分类选择数据源
+  var data = DISHES;
+  if (currentCat === 'meat') data = MEAT_DISHES;
+  else if (currentCat === 'veg') data = VEG_DISHES;
+  else if (currentCat === 'cold') data = COLD_DISHES;
+  else if (currentCat === 'big') data = BIG_DISHES;
+  else if (currentCat === 'staple') data = STAPLE_DISHES;
+  data.forEach(function(dish) {
     var card = document.createElement("div");
     card.className = "menu-card reveal";
     var priceText = dish.price > 0 ? "¥" + dish.price : "面议";
     card.innerHTML = '<span class="menu-card-name">' + dish.name + '</span><span class="menu-card-price">' + priceText + '</span>';
     grid.appendChild(card);
   });
+  checkReveal();  // 让新卡片按可见性淡入
 }
-renderMenuGrid();
-
+// ===== 分类按钮：循环绑定点击事件 =====
+var filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    filterBtns.forEach(function(b){ b.classList.remove('active'); });  // 全部取消高亮
+    btn.classList.add('active');  // 当前按钮高亮
+    currentCat = btn.getAttribute('data-cat');  // 记录选中的分类
+    renderMenuGrid();  // 重新渲染
+  });
+});
 // ===== 点餐弹窗 =====
 var orderBtn = document.getElementById("orderBtn");
 var menuModal = document.getElementById("menuModal");
