@@ -834,4 +834,11 @@ ul {
   font-weight: 700;
   color: #c0392b;
   margin-bottom: 12px;
-}                                              
+}      
+/* 复制订单按钮（白底红字，和红色电话按钮区分开） */
+.copy-btn {
+  background: #fff !important;
+  color: #c0392b !important;
+  border: 1px solid #c0392b;
+  margin-left: 10px;
+}               

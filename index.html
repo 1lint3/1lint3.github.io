@@ -212,7 +212,8 @@ s<!DOCTYPE html>
     <div id="menuList" class="menu-list"></div>
     <div class="menu-foot">
       <div id="cartTotal" class="cart-total">已选 0 道菜 · 合计 ¥0</div>
-      <button id="menuCall" class="menu-call" type="button">📞 打电话订餐</button>
+   <button id="copyOrderBtn" class="menu-call copy-btn" type="button">📋 复制订单</button>  
+ <button id="menuCall" class="menu-call" type="button">📞 打电话订餐</button>
     </div>
   </div>
 </div>
@@ -349,7 +350,28 @@ menuCall
   window
 .location.href = "tel:18613610736";
 });
-
+// ===== 一键复制订单 =====
+var copyOrderBtn = document.getElementById("copyOrderBtn");
+copyOrderBtn.addEventListener("click", function() {
+  var lines = [];
+  for (var key in cart) {
+    var item = cart[key];
+    lines.push(item.name + "×" + item.count);
+  }
+  if (lines.length === 0) {
+    alert("您还没选菜，先点几道菜吧～");
+    return;
+  }
+  var text = "郭家饭店订单：" + lines.join("、");
+  // 复制到剪贴板（老办法，所有浏览器都支持）
+  var ta = document.createElement("textarea");
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); } catch (e) {}
+  document.body.removeChild(ta);
+  alert("订单已复制：\n" + text + "\n\n粘贴发给老板，或照着打电话念。");
+});
 // ===== 渲染完整菜单（支持分类筛选） =====
 var currentCat = 'all';
 function renderMenuGrid() {
