@@ -211,13 +211,14 @@ s<!DOCTYPE html>
     <h2 class="menu-modal-title">郭家饭店 · 菜单</h2>
     <div id="menuList" class="menu-list"></div>
     <div class="menu-foot">
+      <div id="cartTotal" class="cart-total">已选 0 道菜 · 合计 ¥0</div>
       <button id="menuCall" class="menu-call" type="button">📞 打电话订餐</button>
     </div>
   </div>
 </div>
  </body> 
 <!--回到顶部按钮-->
-<button id="backTop" style="position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
+<button id="backTop" style="position:fixed;bottom:96px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
 <script>
 // ===== 菜单数据（按分类分组） =====
 const MEAT_DISHES = [
@@ -261,13 +262,14 @@ var menuModal = document.getElementById("menuModal");
 var menuClose = document.getElementById("menuClose");
 var menuList = document.getElementById("menuList");
 var menuCall = document.getElementById("menuCall");
-var cart = {};  // 购物车
+var cart = {};
 
 orderBtn
 .addEventListener("click", function() {
   renderMenu();
   menuModal
 .hidden = false;
+  updateCartTotal();
 });
 menuClose
 .addEventListener("click", function() { menuModal.hidden = true; });
@@ -324,7 +326,7 @@ function renderMenu() {
   });
 }
 
-// ===== 计算购物车总数量、总价格 =====
+// ===== 总价显示到弹窗底部 =====
 function updateCartTotal(){
   var totalNum = 0;
   var totalPrice = 0;
@@ -335,12 +337,17 @@ function updateCartTotal(){
     totalPrice 
 += item.count * item.price;
   }
-  console.log("菜品总数：", totalNum, "合计：¥", totalPrice);
+  var cartTotal = document.getElementById("cartTotal");
+  if (cartTotal) {
+    cartTotal
+.innerHTML = '已选 ' + totalNum + ' 道菜 · 合计 ¥' + totalPrice;
+  }
 }
 
 menuCall
 .addEventListener("click", function() {
-  window.location.href = "tel:18613610736";
+  window
+.location.href = "tel:18613610736";
 });
 
 // ===== 渲染完整菜单（支持分类筛选） =====
@@ -389,7 +396,8 @@ renderMenuGrid();
 
 // ===== 回到顶部按钮 =====
 const backTopBtn = document.getElementById('backTop');
-window.addEventListener('scroll', function(){
+window
+.addEventListener('scroll', function(){
   if (window.scrollY > 300) {
     backTopBtn
 .style.display = 'block';
@@ -400,7 +408,8 @@ window.addEventListener('scroll', function(){
 });
 backTopBtn
 .addEventListener('click', function(){
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window
+.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 // ===== 招牌菜显示 =====
@@ -424,7 +433,8 @@ function checkReveal() {
     }
   }
 }
-window.addEventListener('scroll', checkReveal);
+window
+.addEventListener('scroll', checkReveal);
 checkReveal();
 </script>
 
