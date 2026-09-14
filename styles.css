@@ -127,10 +127,59 @@ ul {
 .hero-media {
   position: absolute;
   inset: 0;
-  background:
-    url("https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1920&q=85") center / cover no-repeat;
-  transform: scale(1.06);
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.2s ease;
   animation: heroKenBurns 18s ease-in-out infinite alternate;
+}
+.hero-slide.active {
+  opacity: 1;
+}
+/* ===== 轮播箭头和圆点 ===== */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 242, 234, 0.6);
+  background: rgba(26, 20, 16, 0.35);
+  color: var(--paper);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+.hero-arrow--left { left: 1rem; }
+.hero-arrow--right { right: 1rem; }
+.hero-arrow:hover { background: var(--crimson); border-color: var(--crimson); }
+.hero-dots {
+  position: absolute;
+  bottom: 3.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 242, 234, 0.7);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.hero-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 @keyframes heroKenBurns {
@@ -317,28 +366,25 @@ ul {
 }
 
 .dish-grid {
+  position: relative;
   max-width: 72rem;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(3rem, 6vw, 5rem);
+  height: 500px;
 }
 
 .dish-item {
+  position: absolute;
+  inset: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(1.5rem, 4vw, 3rem);
   align-items: center;
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition: opacity 0.8s var(--ease-out);
 }
-
-.dish-item.visible {
+.dish-item.active {
   opacity: 1;
-  transform: translateY(0);
 }
-
 .dish-item--reverse .dish-figure {
   order: 2;
 }
@@ -841,4 +887,99 @@ ul {
   color: #c0392b !important;
   border: 1px solid #c0392b;
   margin-left: 10px;
-}               
+} 
+/* ===== 手机端汉堡菜单 ===== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--gold-light);
+  font-size: 26px;
+  cursor: pointer;
+.dish-grid { height: 680px; }
+  .dish-arrow--left { left: 0.5rem; }
+  .dish-arrow--right { right: 0.5rem; }
+}
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  .site-nav { display: none; }
+  .site-nav.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    background: rgba(26, 20, 16, 0.97);
+    padding: 1.5rem;
+    gap: 1.25rem;
+    text-align: center;
+  }
+}
+/* ===== 图片灯箱 ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  cursor: zoom-out;
+}
+.lightbox img {
+  max-width: 92%;
+  max-height: 90%;
+  object-fit: contain;
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 36px;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}  
+/* ===== 招牌菜轮播箭头和圆点 ===== */
+.dish-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 242, 234, 0.5);
+  background: rgba(26, 20, 16, 0.4);
+  color: var(--gold-light);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+.dish-arrow--left { left: -1.5rem; }
+.dish-arrow--right { right: -1.5rem; }
+.dish-arrow:hover { background: var(--crimson); }
+.dish-dots {
+  position: absolute;
+  bottom: -2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 10px;
+}
+.dish-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 242, 234, 0.6);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.dish-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+}            

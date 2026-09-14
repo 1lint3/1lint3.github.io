@@ -40,12 +40,25 @@ s<!DOCTYPE html>
       <a href="#dishes">招牌菜</a>
       <a href="#contact">联系我们</a>
     </nav>
-    <a class="header-cta" href="tel:18613610736">预约订座</a>
+   <button class="menu-toggle" id="menuToggle" type="button">☰</button> 
+<a class="header-cta" href="tel:18613610736">预约订座</a>
   </header>
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-media" role="img" aria-label="中式宴席与精致摆盘"></div>
+      <div class="hero-media">
+        <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1920&q=85');"></div>
+        <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1603360946369-dc9bb6258143?auto=format&fit=crop&w=1920&q=85');"></div>
+        <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1920&q=85');"></div>
+      </div>
+      <div class="hero-shade"></div>
+      <button class="hero-arrow hero-arrow--left" id="prevSlide" type="button">‹</button>
+      <button class="hero-arrow hero-arrow--right" id="nextSlide" type="button">›</button>
+      <div class="hero-dots">
+        <button class="hero-dot active" data-i="0" type="button"></button>
+        <button class="hero-dot" data-i="1" type="button"></button>
+        <button class="hero-dot" data-i="2" type="button"></button>
+      </div>
       <div class="hero-shade"></div>
       <div class="hero-inner">
         <p class="hero-eyebrow">德州临邑 · 家的味道</p>
@@ -80,7 +93,7 @@ s<!DOCTYPE html>
       </div>
 
       <div class="dish-grid">
-        <article class="dish-item" data-animate>
+        <article class="dish-item active" data-animate>
           <figure class="dish-figure">
             <img src="qingshui-wanzi.jpg" alt="清水丸子，汤清丸嫩，鲜香爽滑" loading="lazy" width="900" height="675">
           </figure>
@@ -145,7 +158,20 @@ s<!DOCTYPE html>
             <p>新鲜油麦菜焯水后拌以蒜蓉、香醋与香油，爽脆可口，蒜香扑鼻，清淡又不失风味。</p>
           </div>
         </article>
+    </article>
+      <button class="dish-arrow dish-arrow--left" id="dishPrev" type="button">‹</button>
+      <button class="dish-arrow dish-arrow--right" id="dishNext" type="button">›</button>
+      <div class="dish-dots">
+        <button class="dish-dot active" data-i="0" type="button"></button>
+        <button class="dish-dot" data-i="1" type="button"></button>
+        <button class="dish-dot" data-i="2" type="button"></button>
+        <button class="dish-dot" data-i="3" type="button"></button>
+        <button class="dish-dot" data-i="4" type="button"></button>
+        <button class="dish-dot" data-i="5" type="button"></button>
       </div>
+      </div>
+    </section>  
+</div>
     </section>
 <section class="full-menu" id="menu">
       <div class="section-head">
@@ -217,7 +243,12 @@ s<!DOCTYPE html>
     </div>
   </div>
 </div>
- </body> 
+ <!-- ===== 图片灯箱 ===== -->
+<div id="lightbox" class="lightbox" hidden>
+  <button id="lightboxClose" class="lightbox-close" type="button">×</button>
+  <img id="lightboxImg" src="" alt="菜品放大图">
+</div>
+</body> 
 <!--回到顶部按钮-->
 <button id="backTop" style="position:fixed;bottom:96px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
 <script>
@@ -398,7 +429,26 @@ function renderMenuGrid() {
   });
   checkReveal();
 }
+// ===== 图片灯箱 =====
+var lightbox = document.getElementById("lightbox");
+var lightboxImg = document.getElementById("lightboxImg");
+var lightboxClose = document.getElementById("lightboxClose");
 
+var dishImgs = document.querySelectorAll(".dish-figure img");
+dishImgs.forEach(function(img) {
+  img.style.cursor = "zoom-in";
+  img.addEventListener("click", function() {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.hidden = false;
+  });
+});
+lightboxClose.addEventListener("click", function() {
+  lightbox.hidden = true;
+});
+lightbox.addEventListener("click", function(e) {
+  if (e.target === lightbox) lightbox.hidden = true;
+});
 // ===== 分类按钮 =====
 var filterBtns = document.querySelectorAll('.filter-btn');
 filterBtns
@@ -434,16 +484,6 @@ backTopBtn
 .scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// ===== 招牌菜显示 =====
-var dishItems = document.querySelectorAll('.dish-item');
-dishItems
-.forEach(function(el){
-  el
-.style.opacity = '1';
-  el
-.style.transform = 'none';
-});
-
 // ===== 滚动渐入 =====
 function checkReveal() {
   var items = document.querySelectorAll('.menu-card, .contact-block, .section-head');
@@ -458,6 +498,71 @@ function checkReveal() {
 window
 .addEventListener('scroll', checkReveal);
 checkReveal();
+// ===== 首页图片轮播 =====
+var slides = document.querySelectorAll('.hero-slide');
+var dots = document.querySelectorAll('.hero-dot');
+var currentSlide = 0;
+
+function showSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+
+document.getElementById('prevSlide').addEventListener('click', function() {
+  showSlide(currentSlide - 1);
+});
+document.getElementById('nextSlide').addEventListener('click', function() {
+  showSlide(currentSlide + 1);
+});
+dots.forEach(function(dot, i) {
+  dot.addEventListener('click', function() {
+    showSlide(i);
+  });
+});
+setInterval(function() {
+  showSlide(currentSlide + 1);
+}, 4000);
+// ===== 手机端汉堡菜单 =====
+var menuToggle = document.getElementById("menuToggle");
+var siteNav = document.querySelector(".site-nav");
+menuToggle.addEventListener("click", function(){
+  siteNav.classList.toggle("open");
+});
+siteNav.querySelectorAll("a").forEach(function(a){
+  a.addEventListener("click", function(){
+    siteNav.classList.remove("open");
+  });
+});
+// ===== 招牌菜六图轮播 =====
+var dishItems = document.querySelectorAll('.dish-item');
+var dishDots = document.querySelectorAll('.dish-dot');
+var currentDish = 0;
+
+function showDish(n) {
+  dishItems[currentDish].classList.remove('active');
+  dishDots[currentDish].classList.remove('active');
+  currentDish = (n + dishItems.length) % dishItems.length;
+  dishItems[currentDish].classList.add('active');
+  dishDots[currentDish].classList.add('active');
+}
+
+document.getElementById('dishPrev').addEventListener('click', function() {
+  showDish(currentDish - 1);
+});
+document.getElementById('dishNext').addEventListener('click', function() {
+  showDish(currentDish + 1);
+});
+dishDots.forEach(function(dot, i) {
+  dot.addEventListener('click', function() {
+    showDish(i);
+  });
+});
+setInterval(function() {
+  showDish(currentDish + 1);
+}, 4500);
 </script>
 
 </html>
