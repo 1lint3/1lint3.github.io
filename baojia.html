@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老郭 · 帮你做网站｜报价单</title>
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-soft: #4a3f35;
+    --paper: #f7f2ea;
+    --paper-warm: #efe6d6;
+    --crimson: #9b1c1c;
+    --crimson-deep: #6e0f0f;
+    --gold: #c4a035;
+    --gold-light: #e8d48b;
+    --white: #fffdf7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── 顶部 ── */
+  .hero {
+    background: linear-gradient(160deg, var(--crimson-deep), var(--crimson) 60%, #a82918);
+    color: var(--paper);
+    text-align: center;
+    padding: 3rem 1.5rem 2.5rem;
+  }
+  .hero .badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: 34px;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .hero p {
+    font-size: 14px;
+    color: rgba(247, 242, 234, 0.85);
+    letter-spacing: 0.05em;
+  }
+  .hero .tel {
+    display: inline-block;
+    margin-top: 18px;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 10px 28px;
+    border-radius: 30px;
+  }
+
+  /* ── 通用区块 ── */
+  .section { padding: 2.2rem 1.25rem; }
+  .section h2 {
+    font-size: 20px;
+    text-align: center;
+    color: var(--crimson);
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+  .section .sub {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-bottom: 1.4rem;
+  }
+
+  /* ── 自我介绍 ── */
+  .about {
+    background: var(--white);
+    border-top: 1px solid rgba(26, 20, 16, 0.06);
+  }
+  .about .card {
+    background: var(--paper-warm);
+    border-radius: 12px;
+    padding: 1.2rem 1.2rem;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .about .card strong { color: var(--crimson); }
+  .about .case {
+    display: block;
+    margin-top: 14px;
+    background: var(--crimson);
+    color: var(--paper);
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+  }
+  .about .case small { display: block; font-size: 11.5px; color: rgba(247,242,234,0.75); margin-top: 2px; }
+
+  /* ── 套餐 ── */
+  .plans { background: var(--paper); }
+  .plan {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem 1.2rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(26, 20, 16, 0.08);
+  }
+  .plan.hot {
+    border: 2px solid var(--crimson);
+    position: relative;
+  }
+  .plan.hot .hot-tag {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--crimson);
+    color: var(--paper);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 2px 14px;
+    border-radius: 20px;
+  }
+  .plan .p-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .plan .p-price {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--crimson);
+    margin: 4px 0 2px;
+  }
+  .plan .p-price small { font-size: 13px; font-weight: 400; color: var(--ink-soft); }
+  .plan .p-desc { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px; }
+  .plan ul { list-style: none; }
+  .plan li {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding: 3px 0;
+  }
+  .plan li::before {
+    content: "✓";
+    color: var(--crimson);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* ── 流程 ── */
+  .steps { background: var(--white); border-top: 1px solid rgba(26,20,16,0.06); }
+  .step-list { display: flex; flex-direction: column; gap: 10px; }
+  .step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--paper-warm);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .step .n {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--crimson);
+    color: var(--paper);
+    text-align: center;
+    line-height: 30px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .step .t { font-size: 13.5px; color: var(--ink-soft); }
+  .step .t strong { color: var(--ink); font-size: 14px; }
+
+  /* ── 常见问题 ── */
+  .faq { background: var(--paper); }
+  .qa {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .qa .q { font-weight: 700; font-size: 14px; color: var(--ink); }
+  .qa .a { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* ── 底部 ── */
+  .foot {
+    background: var(--ink);
+    color: rgba(247, 242, 234, 0.8);
+    text-align: center;
+    padding: 2rem 1.25rem;
+  }
+  .foot .tel {
+    display: block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 12px;
+    border-radius: 30px;
+    margin-bottom: 12px;
+  }
+  .foot p { font-size: 12px; color: rgba(247,242,234,0.55); }
+</style>
+</head>
+<body>
+
+  <!-- 顶部 -->
+  <header class="hero">
+    <span class="badge">本地小店 · 网上门面</span>
+    <h1>老郭 · 帮你做网站</h1>
+    <p>我自己就是开饭店的，郭家饭店的网站就是我做的<br>现在想帮身边的小店，把生意也搬到手机上</p>
+    <a class="tel" href="tel:18613610736">📞 186-1361-0736</a>
+  </header>
+
+  <!-- 我是谁 + 案例 -->
+  <section class="section about">
+    <h2>我是谁</h2>
+    <div class="sub">为什么找我做，放心</div>
+    <div class="card">
+      <p><strong>我自己就是开店的人。</strong>在临邑开饭店十几年，懂小店老板要什么——不是要花哨，是要顾客打电话、找得到门、看着正规。</p>
+      <p style="margin-top:8px;">我把自己家饭店的网站做好了，每天有人用手机看菜单、点餐、打电话。这门手艺，我现在愿意帮你做一份。</p>
+    </div>
+    <a class="case" href="https://1lint3.github.io" target="_blank">
+      先看我做的成品：郭家饭店网站
+      <small>手机点开就能看，就是这个效果</small>
+    </a>
+  </section>
+
+  <!-- 套餐 -->
+  <section class="section plans">
+    <h2>报价单</h2>
+    <div class="sub">三档套餐，按你的需要选</div>
+
+    <div class="plan">
+      <div class="p-name">基础版</div>
+      <div class="p-price">¥500</div>
+      <div class="p-desc">适合：小卖部、理发店、修车铺、快递点</div>
+      <ul>
+        <li>电脑、手机都能打开</li>
+        <li>店名、地址、电话、营业时间</li>
+        <li>招牌照片展示</li>
+        <li>一键拨号、地图导航</li>
+        <li>永久在线，微信能转发</li>
+      </ul>
+    </div>
+
+    <div class="plan hot">
+      <span class="hot-tag">最受欢迎</span>
+      <div class="p-name">标准版</div>
+      <div class="p-price">¥800</div>
+      <div class="p-desc">适合：饭店、餐饮店、理疗店、培训班</div>
+      <ul>
+        <li>基础版全部功能</li>
+        <li>完整菜单 / 服务项目列表</li>
+        <li>顾客在线预约（后台能收到）</li>
+        <li>百度搜索能搜到</li>
+        <li>手机汉堡菜单，好用不挤</li>
+      </ul>
+    </div>
+
+    <div class="plan">
+      <div class="p-name">点餐版</div>
+      <div class="p-price">¥1200</div>
+      <div class="p-desc">适合：生意忙、想省事的餐饮店</div>
+      <ul>
+        <li>标准版全部功能</li>
+        <li>顾客自己选菜加购物车</li>
+        <li>一键复制订单发给老板</li>
+        <li>首页轮播、图片放大</li>
+        <li>按你店里菜价随时改</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 流程 -->
+  <section class="section steps">
+    <h2>怎么合作</h2>
+    <div class="sub">放心，每一步都说清楚</div>
+    <div class="step-list">
+      <div class="step">
+        <div class="n">1</div>
+        <div class="t"><strong>交定金 50%</strong><br>你确认套餐，我当天开工</div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div class="t"><strong>1～3 天做好</strong><br>把你的店名、菜单、电话、照片填进去</div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div class="t"><strong>上线给你看</strong><br>手机打开验收，不满意我改到你满意</div>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <div class="t"><strong>付尾款 + 售后</strong><br>免费帮你改 3 次，之后小改收点辛苦费</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 常见问题 -->
+  <section class="section faq">
+    <h2>你可能想问</h2>
+    <div class="sub">大实话，不绕弯</div>
+    <div class="qa">
+      <div class="q">我不懂电脑，能用吗？</div>
+      <div class="a">啥都不用你管。做好后手机打开就是你的店，顾客点开就能看、就能打电话。</div>
+    </div>
+    <div class="qa">
+      <div class="q">网站放哪？会不会哪天打不开？</div>
+      <div class="a">放在国际大公司的服务器上，永久在线，不跑路。你自己能随时打开验证。</div>
+    </div>
+    <div class="qa">
+      <div class="q">多久能做好？</div>
+      <div class="a">简单的一天，带菜单和预约的三天。不拖泥带水。</div>
+    </div>
+    <div class="qa">
+      <div class="q">以后想改菜价、换照片呢？</div>
+      <div class="a">前 3 次免费。之后小改一次 20～50 块辛苦费，大改另算。</div>
+    </div>
+    <div class="qa">
+      <div class="q">我家店没招牌菜，能做吗？</div>
+      <div class="a">能。卖啥写啥，理发的写项目，修车的写服务，都一样。</div>
+    </div>
+  </section>
+
+  <!-- 底部 -->
+  <footer class="foot">
+    <a class="tel" href="tel:18613610736">📞 打电话 / 加微信 186-1361-0736</a>
+    <p>老郭 · 帮你做网站｜德州临邑<br>先看我家的成品，满意再谈</p>
+  </footer>
+
+</body>
+</html>
