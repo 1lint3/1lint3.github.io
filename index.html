@@ -248,6 +248,23 @@ s<!DOCTYPE html>
   <button id="lightboxClose" class="lightbox-close" type="button">×</button>
   <img id="lightboxImg" src="" alt="菜品放大图">
 </div>
+
+<!-- ===== FastGPT AI 在线客服（右下角悬浮气泡） ===== -->
+<style>
+  /* 客服按钮竖排到右侧最上方：最下面是点餐按钮，中间是回到顶部，最上面是客服，避免互相遮挡 */
+  #fastgpt-chatbot-button {
+    bottom: 160px !important;
+    right: 24px !important;
+  }
+</style>
+<script
+  type="text/javascript"
+  src="https://cloud.fastgpt.cn/js/iframe.js"
+  id="chatbot-iframe"
+  data-bot-src="https://cloud.fastgpt.cn/chat/share?shareId=bdKpmkw5yV2gYQONAsnE7vTo"
+  data-default-open="false"
+  data-drag="false"
+></script>
 </body> 
 <!--回到顶部按钮-->
 <button id="backTop" style="position:fixed;bottom:96px;right:24px;width:44px;height:44px;border-radius:50%;border:none;background:var(--crimson);color:#fff;font-size:18px;cursor:pointer;display:none;z-index:999;">↑</button>
